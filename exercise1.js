@@ -3,8 +3,13 @@
 const arr = [1, 2, 3, 4, 5];
 
 function square(arr, callback) {
-    return arr.map(callback);
+    let result = [];
+    for (let i = 0; i < arr.length; i++) {
+        result.push(callback(arr[i]));
+    }
+    return result;
 }
+
 function squareNum(num) {
     return num * num;
 }

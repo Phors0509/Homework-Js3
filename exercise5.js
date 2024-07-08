@@ -1,43 +1,43 @@
-// 5. Use the example 3 & 4, write in the below scenario:
-// Read the context of `input.txt`
-// Append “First modification” to the content and write it to `output1.txt`
-// Read `output1.txt` and append “SEcond modification” to the file `output2.txt`
-// Finally read `output2.txt` and print to the console
+const readFile = require("./exercise3");
+const writeFile = require("./exercise4");
 
-const { rejects } = require("assert");
-const fs = require("fs");
-
-const readFileAsync = (filePath) => {
-    return new Promise((resolve, reject) => {
-        fs.readFile(filePath, "uft8", (data, err) => {
-            if (err) {
-                reject(err);
-            }
-            resolve(data);
-        });
-    });
-};
-
-const writeFileAsync = (filePath, content) => {
-    return new Promise((resolve, rejects) => {
-        fs.writeFile(filePath, content, "uft8", (err) => {
-            if (err) {
-                rejects(err);
-            }
-            resolve(null);
-        });
-    });
-};
-
-const filePath = "./file/output.txt";
-const content = "Input1!!";
-
-const processFile = async () => {
-    try {
-        const inputContent = await readFile(filePath);
-    } catch {
-        console.log("errr");
+readFile("./file/input.txt", (err, inputContent) => {
+    if (err) {
+        console.error("Error reading input.txt:", err);
+        return;
     }
-};
 
-processFile();
+    const modifiedContent1 = inputContent + "\nFirst modification\n";
+    writeFile("./file/output1.txt", modifiedContent1, (err) => {
+        if (err) {
+            console.error("Error writing output1.txt:", err);
+            return;
+        }
+        console.log("First modification appended to output1.txt");
+
+        readFile("./file/output1.txt", (err, output1Content) => {
+            if (err) {
+                console.error("Error reading output1.txt:", err);
+                return;
+            }
+
+            const modifiedContent2 = output1Content + "Second modification\n";
+            writeFile("./file/output2.txt", modifiedContent2, (err) => {
+                if (err) {
+                    console.error("Error writing output2.txt:", err);
+                    return;
+                }
+                console.log("Second modification appended to output2.txt");
+
+                readFile("./file/output2.txt", (err, output2Content) => {
+                    if (err) {
+                        console.error("Error reading output2.txt:", err);
+                        return;
+                    }
+                    console.log("Final content of output2.txt:");
+                    console.log(output2Content);
+                });
+            });
+        });
+    });
+});

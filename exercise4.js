@@ -2,6 +2,10 @@
 
 const fs = require("fs");
 
+const filePath = "./file/mrWF3.txt";
+const content = "Hello THIS IS MR WF";
+// console.log("Start");
+
 const writeFile = (filePath, content, callback) => {
     fs.writeFile(filePath, content, "utf8", (err) => {
         if (err) {
@@ -11,14 +15,13 @@ const writeFile = (filePath, content, callback) => {
         callback(null);
     });
 };
+// writeFile(filePath, "content", (data, err) => {
+//     if (err) {
+//         console.log("ERRR");
+//     }
+//     console.log(data);
+// });
 
-const filePath = "./file/mrWF.txt";
-const content = "Hello THIS IS MR WF";
+// console.log("End");
 
-writeFile(filePath, content, (err) => {
-    if (err) {
-        console.log("ERRR", err);
-        return;
-    }
-    console.log("Write !!!");
-});
+module.exports = writeFile;
